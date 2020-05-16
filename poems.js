@@ -1,19 +1,19 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost/5000");
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, "connection malfunction, connection malfunction"));
 db.once('open', function () {
 
-  var poemSchema = new mongoose.Schema({
+  const poemSchema = new mongoose.Schema({
     name: String,
     author: String,
     date: Date
   });
 
-  var Poem = mongoose.model('Poem', poemSchema);
+  const Poem = mongoose.model('Poem', poemSchema);
 
-  var byzantium = new Poem({ name: "Sailing to Byzantium", author: "Yeats", date: 1928 })
+  let byzantium = new Poem({ name: "Sailing to Byzantium", author: "Yeats", date: 1928 })
 
   const savePoem = (poem) => {
     poem.save((err) => {
@@ -48,4 +48,20 @@ db.once('open', function () {
 
   listPoems();
   promisePoems();
+
+  let multiplePoems = Poem.insertMany([{ name: "The General", author: "Siegfried Sassoon", date: 1919 }, { name: "Odi et Amo", author: "Catullus", date: -67 }]);
+
+
+  //this doesn't work, why?
+  const addManyPoems = (poemList) => {
+    console.log("do we come in here?")
+    Promise.all(poemList)
+      .then(poems => {
+        console.log("poems added by: " + values.author);
+      })
+      .catch(err => console.log(err));
+  }
+
+  addManyPoems(multiplePoems);
+
 })
