@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/5000");
+mongoose.connect("mongodb://localhost/poems");
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, "connection malfunction, connection malfunction"));
